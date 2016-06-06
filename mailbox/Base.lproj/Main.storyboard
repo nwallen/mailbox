@@ -21,7 +21,7 @@
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="1700"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" heightSizable="YES" flexibleMaxY="YES"/>
                                 <subviews>
-                                    <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="09K-GD-v9p">
+                                    <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" id="09K-GD-v9p">
                                         <rect key="frame" x="0.0" y="65" width="320" height="1636"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" heightSizable="YES" flexibleMaxY="YES"/>
                                         <subviews>
@@ -59,7 +59,7 @@
                                                                 <gestureRecognizers/>
                                                             </imageView>
                                                         </subviews>
-                                                        <color key="backgroundColor" red="0.25882352941176473" green="0.71764705882352942" blue="0.16470588235294117" alpha="1" colorSpace="deviceRGB"/>
+                                                        <color key="backgroundColor" red="0.63921568627450975" green="0.80784313725490198" blue="0.44313725490196076" alpha="1" colorSpace="deviceRGB"/>
                                                     </view>
                                                 </subviews>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -97,16 +97,15 @@
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                     <size key="freeformSize" width="320" height="1700"/>
                     <connections>
+                        <outlet property="archiveIcon" destination="W6y-Ds-HqY" id="IQv-HZ-QXP"/>
                         <outlet property="contentView" destination="WM4-EX-Zlc" id="wl1-Ey-HKV"/>
+                        <outlet property="laterIcon" destination="LSJ-n1-BT7" id="hWQ-p3-7zX"/>
+                        <outlet property="messageImage" destination="TwR-Ok-UBL" id="eGX-rz-suv"/>
+                        <outlet property="messageView" destination="f8O-D8-ZRO" id="5t8-h8-pU6"/>
                         <outlet property="scrollView" destination="09K-GD-v9p" id="nC5-vo-9DG"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
-                <panGestureRecognizer minimumNumberOfTouches="1" id="WxB-1d-m2V">
-                    <connections>
-                        <outlet property="delegate" destination="f8O-D8-ZRO" id="pmQ-Sc-cwN"/>
-                    </connections>
-                </panGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="129" y="321"/>
         </scene>
