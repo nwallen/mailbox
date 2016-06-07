@@ -22,6 +22,7 @@ class MailboxViewController: UIViewController, UIGestureRecognizerDelegate {
 
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var contentView: UIView!
+    @IBOutlet weak var mainView: UIView!
     
     @IBOutlet weak var messageImage: UIImageView!
     @IBOutlet weak var messageView: UIView!
@@ -38,6 +39,8 @@ class MailboxViewController: UIViewController, UIGestureRecognizerDelegate {
     var messageOriginalCenter: CGPoint!
     var archiveIconOriginalCenter: CGPoint!
     var laterIconOriginalCenter: CGPoint!
+    var mainViewOriginalCenter: CGPoint!
+    
     var panGestureRecognizer: UIPanGestureRecognizer!
     
     let panThreshold: CGFloat = 60
@@ -56,6 +59,10 @@ class MailboxViewController: UIViewController, UIGestureRecognizerDelegate {
         messageView.addGestureRecognizer(panGestureRecognizer)
         
         panGestureRecognizer.delegate = self
+        
+        let edgeGesture = UIScreenEdgePanGestureRecognizer(target: self, action: "onEdgePan:")
+        edgeGesture.edges = UIRectEdge.Left
+        mainView.addGestureRecognizer(edgeGesture)
         
         red = UIColor.init(red: 219, green: 65, blue: 35)
         brown = UIColor.init(red: 174, green: 135, blue: 97)
@@ -160,6 +167,31 @@ class MailboxViewController: UIViewController, UIGestureRecognizerDelegate {
         }
     }
     
+    func onEdgePan(sender: UIScreenEdgePanGestureRecognizer){
+        let point = sender.locationInView(view)
+        let translation = sender.translationInView(view)
+        let velocity = sender.velocityInView(view)
+        
+        if sender.state == UIGestureRecognizerState.Began {
+            mainViewOriginalCenter = mainView.center
+        }
+        else if sender.state == UIGestureRecognizerState.Changed {
+            mainView.center = CGPoint(x: mainViewOriginalCenter.x + translation.x, y: mainViewOriginalCenter.y)
+        }
+        else if sender.state == UIGestureRecognizerState.Ended {
+            if velocity.x > 0{
+                 showMenu()
+            }
+            else {
+                hideMenu()
+            }
+        }
+    }
+    
+    @IBAction func didTapMainView(sender: AnyObject) {
+        hideMenu()
+    }
+    
     @IBAction func didTapView(sender: UITapGestureRecognizer) {
         UIView.animateWithDuration(0.2){
              sender.view!.alpha = 0
@@ -171,6 +203,18 @@ class MailboxViewController: UIViewController, UIGestureRecognizerDelegate {
     
     @IBAction func didTapFeed(sender: AnyObject) {
         
+    }
+    
+    func showMenu() {
+        UIView.animateWithDuration(0.2){
+            self.mainView.frame.origin.x = 300.0
+        }
+    }
+    
+    func hideMenu(){
+        UIView.animateWithDuration(0.2){
+            self.mainView.frame.origin.x = 0
+        }
     }
     
     func showScheduleOptions() {

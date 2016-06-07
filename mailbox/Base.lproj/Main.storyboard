@@ -101,6 +101,9 @@
                                     </imageView>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <connections>
+                                    <outletCollection property="gestureRecognizers" destination="9QJ-A3-ViR" appends="YES" id="VVo-BN-CNN"/>
+                                </connections>
                             </view>
                         </subviews>
                         <color key="backgroundColor" red="0.9137254901960784" green="0.92156862745098034" blue="0.93333333333333335" alpha="1" colorSpace="deviceRGB"/>
@@ -113,6 +116,7 @@
                         <outlet property="feedImageView" destination="gzn-FK-8nY" id="BDk-dg-zT6"/>
                         <outlet property="laterIcon" destination="LSJ-n1-BT7" id="hWQ-p3-7zX"/>
                         <outlet property="listView" destination="4vv-zl-twc" id="EYn-Kg-dLF"/>
+                        <outlet property="mainView" destination="Pb5-Zr-xZY" id="OGh-KE-69Z"/>
                         <outlet property="messageImage" destination="TwR-Ok-UBL" id="eGX-rz-suv"/>
                         <outlet property="messageView" destination="f8O-D8-ZRO" id="5t8-h8-pU6"/>
                         <outlet property="rescheduleView" destination="4Oc-zp-KwB" id="xRR-Ng-F1M"/>
@@ -120,6 +124,11 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+                <tapGestureRecognizer id="9QJ-A3-ViR">
+                    <connections>
+                        <action selector="didTapMainView:" destination="BYZ-38-t0r" id="Pxa-Rh-ZDk"/>
+                    </connections>
+                </tapGestureRecognizer>
                 <tapGestureRecognizer id="rN2-AQ-kIw">
                     <connections>
                         <action selector="didTapView:" destination="BYZ-38-t0r" id="R8s-2G-BRl"/>
