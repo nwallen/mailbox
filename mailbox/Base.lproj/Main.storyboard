@@ -40,6 +40,10 @@
                                                     <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="feed" id="gzn-FK-8nY">
                                                         <rect key="frame" x="0.0" y="172" width="320" height="1202"/>
                                                         <autoresizingMask key="autoresizingMask"/>
+                                                        <gestureRecognizers/>
+                                                        <connections>
+                                                            <outletCollection property="gestureRecognizers" destination="TeC-y3-ibQ" appends="YES" id="WxS-ph-YZn"/>
+                                                        </connections>
                                                     </imageView>
                                                     <view contentMode="scaleToFill" id="f8O-D8-ZRO" userLabel="singleMessageView">
                                                         <rect key="frame" x="0.0" y="86" width="320" height="86"/>
@@ -62,7 +66,7 @@
                                                         <color key="backgroundColor" red="0.63921568627450975" green="0.80784313725490198" blue="0.44313725490196076" alpha="1" colorSpace="deviceRGB"/>
                                                     </view>
                                                 </subviews>
-                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="deviceRGB"/>
                                             </view>
                                         </subviews>
                                     </scrollView>
@@ -83,10 +87,17 @@
                                     <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" alpha="0.0" contentMode="center" image="list" id="4vv-zl-twc">
                                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                                         <autoresizingMask key="autoresizingMask"/>
+                                        <connections>
+                                            <outletCollection property="gestureRecognizers" destination="obe-UT-jG8" appends="YES" id="N6Y-ep-pGL"/>
+                                        </connections>
                                     </imageView>
                                     <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" alpha="0.0" contentMode="center" image="reschedule" id="4Oc-zp-KwB">
                                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                                         <autoresizingMask key="autoresizingMask"/>
+                                        <gestureRecognizers/>
+                                        <connections>
+                                            <outletCollection property="gestureRecognizers" destination="rN2-AQ-kIw" appends="YES" id="1hE-1G-2A3"/>
+                                        </connections>
                                     </imageView>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -99,13 +110,31 @@
                     <connections>
                         <outlet property="archiveIcon" destination="W6y-Ds-HqY" id="IQv-HZ-QXP"/>
                         <outlet property="contentView" destination="WM4-EX-Zlc" id="wl1-Ey-HKV"/>
+                        <outlet property="feedImageView" destination="gzn-FK-8nY" id="BDk-dg-zT6"/>
                         <outlet property="laterIcon" destination="LSJ-n1-BT7" id="hWQ-p3-7zX"/>
+                        <outlet property="listView" destination="4vv-zl-twc" id="EYn-Kg-dLF"/>
                         <outlet property="messageImage" destination="TwR-Ok-UBL" id="eGX-rz-suv"/>
                         <outlet property="messageView" destination="f8O-D8-ZRO" id="5t8-h8-pU6"/>
+                        <outlet property="rescheduleView" destination="4Oc-zp-KwB" id="xRR-Ng-F1M"/>
                         <outlet property="scrollView" destination="09K-GD-v9p" id="nC5-vo-9DG"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+                <tapGestureRecognizer id="rN2-AQ-kIw">
+                    <connections>
+                        <action selector="didTapView:" destination="BYZ-38-t0r" id="R8s-2G-BRl"/>
+                    </connections>
+                </tapGestureRecognizer>
+                <tapGestureRecognizer id="obe-UT-jG8">
+                    <connections>
+                        <action selector="didTapView:" destination="BYZ-38-t0r" id="d0Z-5e-6ta"/>
+                    </connections>
+                </tapGestureRecognizer>
+                <tapGestureRecognizer id="TeC-y3-ibQ">
+                    <connections>
+                        <action selector="didTapFeed:" destination="BYZ-38-t0r" id="9DH-mk-3dv"/>
+                    </connections>
+                </tapGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="129" y="321"/>
         </scene>

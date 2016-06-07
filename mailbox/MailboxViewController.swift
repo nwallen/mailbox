@@ -25,10 +25,15 @@ class MailboxViewController: UIViewController, UIGestureRecognizerDelegate {
     
     @IBOutlet weak var messageImage: UIImageView!
     @IBOutlet weak var messageView: UIView!
+    @IBOutlet weak var feedImageView: UIImageView!
     
     @IBOutlet weak var laterIcon: UIImageView!
     @IBOutlet weak var archiveIcon: UIImageView!
     
+    @IBOutlet weak var listView: UIImageView!
+    @IBOutlet weak var rescheduleView: UIImageView!
+    
+    var refreshControl: UIRefreshControl!
     
     var messageOriginalCenter: CGPoint!
     var archiveIconOriginalCenter: CGPoint!
@@ -57,6 +62,11 @@ class MailboxViewController: UIViewController, UIGestureRecognizerDelegate {
         gray = UIColor.init(red: 233, green: 235, blue: 238)
         green = UIColor.init(red: 163, green: 206, blue: 113)
         yellow = UIColor.init(red: 245, green: 195, blue: 59)
+        
+        refreshControl = UIRefreshControl()
+        refreshControl.tintColor = UIColor.init(red:68, green:170, blue:210)
+        refreshControl.addTarget(self, action: "onRefresh", forControlEvents: UIControlEvents.ValueChanged)
+        scrollView.insertSubview(refreshControl, atIndex: 0)
 
     }
 
@@ -86,60 +96,146 @@ class MailboxViewController: UIViewController, UIGestureRecognizerDelegate {
             
             messageView.backgroundColor = gray
             
-            
             if translation.x > panThreshold {
                 archiveIcon.center = CGPoint(x: archiveIconOriginalCenter.x + translation.x - 60, y:archiveIconOriginalCenter.y)
-                messageView.backgroundColor = green
                 if translation.x > panIconSwitchThreshold{
                     archiveIcon.image = UIImage(named:"delete_icon")
-                     messageView.backgroundColor = red
-                } else {
-                    archiveIcon.image = UIImage(named:"archive_icon")
-                     messageView.backgroundColor = green
+                    messageView.backgroundColor = red
                 }
-                
+                else {
+                    archiveIcon.image = UIImage(named:"archive_icon")
+                    messageView.backgroundColor = green
+                }
             }
             else if translation.x < -panThreshold{
                 laterIcon.center = CGPoint(x: laterIconOriginalCenter.x + translation.x + 60, y:laterIconOriginalCenter.y)
-                messageView.backgroundColor = yellow
+               
                 if translation.x < -panIconSwitchThreshold{
                     laterIcon.image = UIImage(named:"list_icon")
-                     messageView.backgroundColor = brown
-                } else {
+                    messageView.backgroundColor = brown
+                }
+                else {
                     laterIcon.image = UIImage(named:"later_icon")
                     messageView.backgroundColor = yellow
                 }
-                
             }
             
         } else if sender.state == UIGestureRecognizerState.Ended {
         
             if translation.x > panThreshold {
-                print("archive!")
+                if translation.x > panIconSwitchThreshold{
+                    //print("delete!")
+                    animateMessageRightAndHide()
+                }
+                else {
+                    //print("archive!")
+                    animateMessageRightAndHide()
+                    
+                }
             }
             else if translation.x < -panThreshold{
-                print("schedule!")
+                if translation.x < -panIconSwitchThreshold{
+                    //print("list!")
+                    showListOptions()
+                }
+                else {
+                    //print("schedule!")
+                    showScheduleOptions()
+                }
             }
-            
-           resetMessageView()
-           
+            else {
+                resetMessageView()
+            }
+    
         }
     
     }
     
-    func animateColor(targetView:UIView, color:UIColor){
+    func onRefresh() {
+        delay(0.4){
+            self.refreshControl.endRefreshing()
+            delay(0.4){
+                self.showMessageView()
+            }
+        }
+    }
+    
+    @IBAction func didTapView(sender: UITapGestureRecognizer) {
         UIView.animateWithDuration(0.2){
-            targetView.backgroundColor = color
+             sender.view!.alpha = 0
+        }
+        delay(0.2){
+           self.hideMessageView()
+        }
+    }
+    
+    @IBAction func didTapFeed(sender: AnyObject) {
+        
+    }
+    
+    func showScheduleOptions() {
+        animateMessageLeft(0.2)
+        delay(0.2){
+            UIView.animateWithDuration(0.2){
+                self.rescheduleView.alpha = 1
+            }
+        }
+    }
+    
+    func showListOptions() {
+        animateMessageLeft(0.2)
+        delay(0.2){
+            UIView.animateWithDuration(0.2){
+                self.listView.alpha = 1
+            }
+        }
+    }
+    
+    func animateMessageRightAndHide(){
+        UIView.animateWithDuration(0.2){
+            self.messageImage.center = CGPoint( x:self.messageOriginalCenter.x + self.messageView.frame.width, y: self.messageOriginalCenter.y)
+            self.archiveIcon.center = CGPoint( x:self.archiveIconOriginalCenter.x + self.messageView.frame.width - self.panThreshold, y: self.archiveIconOriginalCenter.y)
+        }
+        delay(0.2){
+            self.hideMessageView()
+        }
+    }
+    
+    func animateMessageLeft(animationTime: Double) {
+        UIView.animateWithDuration(animationTime){
+            self.messageImage.center = CGPoint( x:self.messageOriginalCenter.x - self.messageView.frame.width, y: self.messageOriginalCenter.y)
+            self.laterIcon.center = CGPoint( x:self.laterIconOriginalCenter.x - self.messageView.frame.width + self.panThreshold, y: self.laterIconOriginalCenter.y)
+        }
+    }
+    
+    func showMessageView(){
+        UIView.animateWithDuration(0.3){
+            if(self.messageView.alpha == 0){
+                self.messageView.alpha = 1
+                self.feedImageView.frame.origin.y += self.messageView.frame.height
+            }
+        }
+    }
+    
+    func hideMessageView(){
+        UIView.animateWithDuration(0.3){
+            self.messageView.alpha = 0
+        }
+        delay(0.3){
+            UIView.animateWithDuration(0.3){
+                self.feedImageView.frame.origin.y -= self.messageView.frame.height
+            }
+        }
+        delay(0.6){
+            self.resetMessageView()
         }
     }
     
     func resetMessageView(){
-        delay(0.2){
-            UIView.animateWithDuration(0.2){
-                self.laterIcon.center = self.laterIconOriginalCenter
-                self.archiveIcon.center = self.archiveIconOriginalCenter
-                self.messageImage.center = self.messageOriginalCenter
-            }
+        UIView.animateWithDuration(0.2){
+            self.laterIcon.center = self.laterIconOriginalCenter
+            self.archiveIcon.center = self.archiveIconOriginalCenter
+            self.messageImage.center = self.messageOriginalCenter
         }
     }
     
